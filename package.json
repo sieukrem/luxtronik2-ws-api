@@ -1,0 +1,31 @@
+{
+  "name": "luxtronik2-ws-api",
+  "version": "1.0.0",
+  "description": "Luxtronik2 WebSocket API",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -r ts-node/register  ./src/*.spec.ts",
+    "build": "tsc -d -p ./"
+  },
+  "files": [
+    "out/*"
+  ],
+  "keywords": ["Luxtronik2","API"],
+  "author": "Eugen Kremer",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^7.3.1",
+    "xmldom": "^0.3.0",
+    "xpath": "0.0.27"
+  },
+  "devDependencies": {
+    "@types/xmldom": "^0.1.30",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^8.0.0",
+    "@types/ws": "^7.2.6",
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6"
+  }
+}
