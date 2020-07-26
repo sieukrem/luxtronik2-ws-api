@@ -1,18 +1,19 @@
 {
   "name": "luxtronik2-ws-api",
-  "version": "1.0.1",
+  "version": "1.0.1-c",
   "description": "Luxtronik2 WebSocket API",
-  "main": "index.js",
   "repository": {
     "url": "https://github.com/sieukrem/luxtronik2-ws-api"
   },
   "scripts": {
     "test": "mocha -r ts-node/register  ./src/*.spec.ts",
-    "build": "tsc -d -p ./"
+    "build": "tsc"
   },
   "files": [
     "out/*"
   ],
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
   "keywords": ["Luxtronik2","API"],
   "author": "Eugen Kremer",
   "license": "ISC",

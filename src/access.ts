@@ -5,7 +5,7 @@ import { throws } from './throws';
 export type FetchFn = (id:string)=>Promise<string>;
 
 export class Access{
-    constructor(private readonly context: Element, private readonly fetchFn: FetchFn){
+    private constructor(private readonly context: Element, private readonly fetchFn: FetchFn){
 
     }
 
