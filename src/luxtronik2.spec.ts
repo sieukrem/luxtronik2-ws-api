@@ -22,6 +22,9 @@ describe("Luxtronik2", ()=>{
         it("throws on wrong IP", async ()=>{
             expect(await throws(async ()=> await Luxtronik2.connect("127.a", PW))).eq(true);
         })
+        it("throws on handshakeTimeout", async ()=>{
+            expect(await throws(async ()=> await Luxtronik2.connect(wpIp, PW, 10000,2))).eq(true);
+        })
     });
 
     describe("access",()=>{

@@ -36,15 +36,15 @@ export class Luxtronik2 extends events.EventEmitter{
         return this;
     }
 
-    public static async connect(ip:string, password:string, timeout: number = 100, handshakeTimeout: number = 100): Promise<Luxtronik2>{
+    public static async connect(ip:string, password:string, timeoutMillis: number = 10000, handshakeTimeoutMillis: number = 10000): Promise<Luxtronik2>{
         return new Promise((resolve, reject)=>{
-            const ws = new WebSocket(`ws://${ip}:8214`, "Lux_WS", { timeout: timeout, handshakeTimeout: handshakeTimeout});
+            const ws = new WebSocket(`ws://${ip}:8214`, "Lux_WS", { timeout: timeoutMillis, handshakeTimeout: handshakeTimeoutMillis});
 
             const messageDispatcher = {
-                onmessage : (data: any)=>{
+                onmessage : (data: string)=>{
                     try{
                         let lx :Luxtronik2;
-                        lx = new Luxtronik2(ws, Access.fromXml(data as string, (id)=>{
+                        lx = new Luxtronik2(ws, Access.fromXml(data, (id)=>{
                             return lx.sendRequest("GET;"+id);
                         }));
 
@@ -60,8 +60,8 @@ export class Luxtronik2 extends events.EventEmitter{
             }
 
             ws.on('error', reject);
-            ws.on('message', (data: any)=>{
-               messageDispatcher.onmessage(data)     
+            ws.on('message', (data: WebSocket.Data)=>{
+               messageDispatcher.onmessage(data.toString())     
             });
 
             ws.on('open', function open() {

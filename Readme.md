@@ -41,3 +41,6 @@ Successfully opened connection should be properly closed otherwise your program 
         lx.disconnect();
     }
 ```
+## Change log
+
+* 1.0.2 Added timeout parameters for connection
