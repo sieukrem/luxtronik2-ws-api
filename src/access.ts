@@ -1,6 +1,5 @@
 import * as xpath from 'xpath';
-import {DOMParser} from "xmldom";
-import { throws } from './throws';
+import {DOMParser} from "@xmldom/xmldom";
 
 export type FetchFn = (id:string)=>Promise<string>;
 
