@@ -1,12 +1,13 @@
 {
   "name": "luxtronik2-ws-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Luxtronik2 WebSocket API",
   "repository": {
     "url": "https://github.com/sieukrem/luxtronik2-ws-api"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register  ./src/*.spec.ts",
+    "test": "mocha -r ts-node/register  ./src/*.spec.ts  --exclude ./src/luxtronik2.spec.ts",
+    "integration-test": "mocha -r ts-node/register  ./src/*.spec.ts",
     "build": "tsc"
   },
   "files": [
