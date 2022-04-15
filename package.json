@@ -1,6 +1,6 @@
 {
   "name": "luxtronik2-ws-api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Luxtronik2 WebSocket API",
   "repository": {
     "url": "https://github.com/sieukrem/luxtronik2-ws-api"
