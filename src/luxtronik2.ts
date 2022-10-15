@@ -17,6 +17,11 @@ export class Luxtronik2 extends events.EventEmitter {
 
   private async sendRequest(cmd: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
+      if (this.ws.readyState != this.ws.OPEN){
+        reject("sendRequest failed, Websocket in state "+this.ws.readyState);
+        return;
+      }
+
       this.queue.push(resolve);
       this.ws.send(cmd);
     });
@@ -48,6 +53,21 @@ export class Luxtronik2 extends events.EventEmitter {
           handshakeTimeout: handshakeTimeoutMillis,
         });
 
+        var heartbeatTimeout :any = undefined;
+
+        function heartbeat() {
+          clearTimeout(heartbeatTimeout);
+        
+          // Use `WebSocket#terminate()`, which immediately destroys the connection,
+          // instead of `WebSocket#close()`, which waits for the close timer.
+          // Delay should be equal to the interval at which your server
+          // sends out pings plus a conservative assumption of the latency.
+          heartbeatTimeout = setTimeout(() => {
+            ws.terminate();
+            reject("heartbeat exceeded");
+          }, timeoutMillis);
+      }        
+
         const messageDispatcher = {
           onmessage: (data: string) => {
             try {
@@ -62,6 +82,7 @@ export class Luxtronik2 extends events.EventEmitter {
               messageDispatcher.onmessage = lx.onmessage.bind(lx);
 
               ws.on("close", (ws) => {
+                clearTimeout(heartbeatTimeout);
                 lx.emit("close", lx);
               });
 
@@ -75,10 +96,12 @@ export class Luxtronik2 extends events.EventEmitter {
         ws.on("unexpected-response", reject);
         ws.on("error", reject);
         ws.on("message", (data: WebSocket.Data) => {
+          heartbeat();
           messageDispatcher.onmessage(data.toString());
         });
 
         ws.on("open", function open() {
+          heartbeat();
           ws.send("LOGIN;" + password);
         });
       } catch (e) {
